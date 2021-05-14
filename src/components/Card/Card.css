@@ -1,0 +1,12 @@
+.Card {
+  display: grid;
+  justify-items: center;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, teal, white 28%);
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.Card__heading {
+  color: white;
+}
