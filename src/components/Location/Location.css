@@ -1,4 +1,4 @@
-.Card {
+.Location {
   display: grid;
   justify-items: center;
   border-radius: 10px;
@@ -6,8 +6,10 @@
   background: linear-gradient(180deg, teal, white 28%);
   border: 2px solid rgba(0, 0, 0, 0.2);
   width: 304px;
+  height: 425px;
 }
 
-.Card__heading {
+.Location__heading {
   color: white;
+  margin-bottom: 30px;
 }
