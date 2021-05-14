@@ -12,6 +12,7 @@ function App() {
     episode: 'https://rickandmortyapi.com/api/episode',
     location: 'https://rickandmortyapi.com/api/location',
   })
+
   const [isActive, setIsActive] = useState({
     characters: true,
     episodes: false,
@@ -25,7 +26,7 @@ function App() {
       fetch(url.char)
         .then(res => res.json())
         .then(data => setChars(() => setChars([...chars, ...data.results]))),
-    []
+    [url]
   )
 
   const [episode, setEpisode] = useState([])
@@ -51,26 +52,6 @@ function App() {
         ),
     []
   )
-
-  // useEffect(
-  //   () =>
-  //     fetch(url.location)
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         setLocation(() => setLocation(...location, data.results))
-  //         data.results.map(({ residents }) =>
-  //           residents.forEach(url =>
-  //             fetch(url).then(res =>
-  //               res.json().then(data => {
-  //                 setLocation(() => setLocation(...location, ...data))
-  //                 console.log(location)
-  //               })
-  //             )
-  //           )
-  //         )
-  //       }),
-  //   []
-  // )
 
   return (
     <div className="App">
