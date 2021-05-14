@@ -2,17 +2,3 @@
   display: flex;
   gap: 2px;
 }
-
-.Navigation__button {
-  background: linear-gradient(180deg, teal, rgba(0, 177, 201, 0.3));
-  color: black;
-  border: 1px solid yellowgreen;
-  border-radius: 7px;
-  padding: 4px 10px;
-  height: 48px;
-  width: 105px;
-}
-
-.Navigation__button:hover {
-  background: linear-gradient(180deg, greenyellow, rgba(0, 177, 201, 0.3));
-}
