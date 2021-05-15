@@ -1,0 +1,8 @@
+.Pagination {
+  display: flex;
+  gap: 5px;
+}
+
+.Paginataion__span {
+  color: white;
+}
