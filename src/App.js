@@ -110,14 +110,24 @@ function App() {
 
   function renderChars() {
     return chars.map(el => (
-      <Card key={el.id} props={el} handleBookmark={handleBookmark} />
+      <Card
+        key={el.id}
+        props={el}
+        handleBookmark={handleBookmark}
+        bookmarked={bookmarked}
+      />
     ))
   }
 
   function renderBookmarked() {
     console.log(bookmarked)
     return bookmarked.map(el => (
-      <Card key={el.id} props={el} handleBookmark={handleBookmark} />
+      <Card
+        key={el.id}
+        props={el}
+        handleBookmark={handleBookmark}
+        bookmarked={bookmarked}
+      />
     ))
   }
 
