@@ -18,7 +18,10 @@ function App() {
     characters: true,
     episodes: false,
     locations: false,
+    bookmarks: false,
   })
+
+  const [bookmarked, setBookmarked] = useState([])
 
   const [pageChar, setPageChar] = useState({
     count: 671,
@@ -102,7 +105,14 @@ function App() {
   )
 
   function renderChars() {
-    return chars.map(el => <Card key={el.id} props={el} />)
+    return chars.map(el => (
+      <Card
+        key={el.id}
+        props={el}
+        isActive={isActive}
+        handleBookmark={handleBookmark}
+      />
+    ))
   }
 
   function renderLocations() {
@@ -148,6 +158,35 @@ function App() {
       locations: pageLocation,
     }
     return pageCounter[activeNav]
+  }
+
+  function handleBookmark(event) {
+    const index = event.target.name - 1
+    const newValue = (chars[index].isBookmarked = !chars[index].isBookmarked)
+    setChars(chars =>
+      setChars(
+        chars,
+        (chars[index] = { ...chars[index], isBookmarked: newValue })
+      )
+    )
+    console.log(bookmarked)
+    if (newValue) {
+      setBookmarked([...bookmarked, chars[index]])
+    } else {
+      const indexToDelete = bookmarked.findIndex(
+        el => chars[index].name === el.name
+      )
+      console.log(indexToDelete)
+      console.log(chars[index].name)
+      console.log([
+        ...bookmarked.slice(0, indexToDelete),
+        ...bookmarked.slice(indexToDelete + 1),
+      ])
+      setBookmarked([
+        ...bookmarked.slice(0, indexToDelete),
+        ...bookmarked.slice(indexToDelete + 1),
+      ])
+    }
   }
 }
 
