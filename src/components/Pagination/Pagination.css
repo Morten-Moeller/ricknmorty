@@ -1,6 +1,8 @@
 .Pagination {
   display: flex;
   gap: 5px;
+  height: 48px;
+  align-items: center;
 }
 
 .Paginataion__span {

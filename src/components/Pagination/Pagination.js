@@ -5,9 +5,10 @@ export default function Pagination({
   handleClickNext,
   handleClickPrev,
 }) {
+  console.log(props)
   const { pages, next } = props
   const re = /\d+/g
-  const page = next.match(re) - 1
+  const page = next ? next.match(re) - 1 : pages
   return (
     <section className="Pagination">
       <button
@@ -19,7 +20,7 @@ export default function Pagination({
         &lt;{' '}
       </button>
       <span className="Paginataion__span">
-        {page ? page : pages} / {pages}
+        {page} / {pages}
       </span>
       <button
         onClick={handleClickNext}

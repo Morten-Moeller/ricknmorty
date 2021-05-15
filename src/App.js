@@ -89,14 +89,15 @@ function App() {
       <Header />
       <Navigation isActive={isActive} handleClick={handleNavClick} />
       <Pagination
-        props={pageChar}
+        props={handlePageCount()}
         handleClickNext={handleNextPageClick}
         handleClickPrev={handlePrevPageClick}
       />
-
-      {isActive.locations && location && renderLocations()}
-      {isActive.episodes && episode && renderEpisodes()}
-      {isActive.characters && chars && renderChars()}
+      <div className="App__container">
+        {isActive.locations && location && renderLocations()}
+        {isActive.episodes && episode && renderEpisodes()}
+        {isActive.characters && chars && renderChars()}
+      </div>
     </div>
   )
 
@@ -137,6 +138,16 @@ function App() {
       locations: pageLocation.prev,
     }
     setUrl({ ...url, [target]: prevPage[target] })
+  }
+
+  function handlePageCount() {
+    const activeNav = Object.keys(isActive).find(key => isActive[key] === true)
+    const pageCounter = {
+      characters: pageChar,
+      episodes: pageEpisode,
+      locations: pageLocation,
+    }
+    return pageCounter[activeNav]
   }
 }
 

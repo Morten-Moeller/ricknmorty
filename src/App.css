@@ -2,6 +2,7 @@
   display: grid;
   justify-items: center;
   gap: 20px;
+  grid-template-rows: 64px, 48px, 48px, 1fr;
   background: linear-gradient(
     90deg,
     greenyellow -15%,
@@ -12,4 +13,11 @@
     teal,
     greenyellow 115%
   );
+}
+
+.App__container {
+  min-height: calc(100vh - 220px);
+  display: grid;
+  gap: 20px;
+  justify-items: center;
 }
