@@ -3,13 +3,8 @@
   color: black;
   border: 1px solid yellowgreen;
   border-radius: 7px;
-  padding: 4px 10px;
-  height: 48px;
-  width: 105px;
-}
-
-.Button:hover {
-  background: linear-gradient(180deg, greenyellow, rgba(0, 177, 201, 0.3));
+  padding: 2px 5px;
+  height: 36px;
 }
 
 .Button.active {
