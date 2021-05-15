@@ -5,12 +5,13 @@ import Header from './components/Header/Header'
 import Navigation from './components/Navigation/Navigation'
 import Location from './components/Location/Location'
 import Episode from './components/Episode/Episode'
+import Pagination from './components/Pagination/Pagination'
 
 function App() {
   const [url, setUrl] = useState({
-    char: 'https://rickandmortyapi.com/api/character',
-    episode: 'https://rickandmortyapi.com/api/episode',
-    location: 'https://rickandmortyapi.com/api/location',
+    characters: 'https://rickandmortyapi.com/api/character',
+    episodes: 'https://rickandmortyapi.com/api/episode',
+    locations: 'https://rickandmortyapi.com/api/location',
   })
 
   const [isActive, setIsActive] = useState({
@@ -19,53 +20,89 @@ function App() {
     locations: false,
   })
 
+  const [pageChar, setPageChar] = useState({
+    count: 671,
+    next: 'https://rickandmortyapi.com/api/character?page=2',
+    pages: 34,
+    prev: null,
+  })
+
   const [chars, setChars] = useState([])
 
   useEffect(
     () =>
-      fetch(url.char)
+      fetch(url.characters)
         .then(res => res.json())
-        .then(data => setChars(() => setChars([...chars, ...data.results]))),
-    [url]
+        .then(data => {
+          setChars(() => setChars([...data.results]))
+          setPageChar(data.info)
+        }),
+    [url.characters]
   )
+
+  const [pageEpisode, setPageEpisode] = useState({
+    count: 671,
+    next: 'https://rickandmortyapi.com/api/episode?page=2',
+    pages: 34,
+    prev: null,
+  })
 
   const [episode, setEpisode] = useState([])
 
   useEffect(
     () =>
-      fetch(url.episode)
+      fetch(url.episodes)
         .then(res => res.json())
         .then(data =>
-          setEpisode(() => setEpisode([...episode, ...data.results]))
+          setEpisode(() => {
+            setEpisode([...data.results])
+            setPageEpisode(data.info)
+          })
         ),
-    []
+    [url.episodes]
   )
+
+  const [pageLocation, setPageLocation] = useState({
+    count: 671,
+    next: 'https://rickandmortyapi.com/api/location?page=2',
+    pages: 34,
+    prev: null,
+  })
 
   const [location, setLocation] = useState([])
 
   useEffect(
     () =>
-      fetch(url.location)
+      fetch(url.locations)
         .then(res => res.json())
         .then(data =>
-          setLocation(() => setLocation([...location, ...data.results]))
+          setLocation(() => {
+            setLocation([...data.results])
+            setPageLocation(data.info)
+          })
         ),
-    []
+    [url.locations]
   )
 
   return (
     <div className="App">
       <Header />
-      <Navigation isActive={isActive} handleClick={handleClick} />
-
-      {isActive.locations && renderLocations()}
-      {isActive.episodes && renderEpisodes()}
-      {isActive.characters && renderChars()}
+      <Navigation isActive={isActive} handleClick={handleNavClick} />
+      <Pagination
+        props={handlePageCount()}
+        handleClickNext={handleNextPageClick}
+        handleClickPrev={handlePrevPageClick}
+      />
+      <div className="App__container">
+        {isActive.locations && location && renderLocations()}
+        {isActive.episodes && episode && renderEpisodes()}
+        {isActive.characters && chars && renderChars()}
+      </div>
     </div>
   )
 
   function renderChars() {
-    return chars.map(el => Card(el))
+    return chars.map(el => <Card key={el.id} props={el} />)
   }
 
   function renderLocations() {
@@ -76,11 +113,41 @@ function App() {
     return episode.map(el => Episode(el))
   }
 
-  function handleClick(event) {
+  function handleNavClick(event) {
     const value = event.target.name.toLowerCase()
     const obj = { characters: false, episodes: false, locations: false }
     obj[value] = true
     setIsActive(obj)
+  }
+
+  function handleNextPageClick() {
+    const target = Object.keys(isActive).find(key => isActive[key] === true)
+    const nextPage = {
+      characters: pageChar.next,
+      episodes: pageEpisode.next,
+      locations: pageLocation.next,
+    }
+    setUrl({ ...url, [target]: nextPage[target] })
+  }
+
+  function handlePrevPageClick() {
+    const target = Object.keys(isActive).find(key => isActive[key] === true)
+    const prevPage = {
+      characters: pageChar.prev,
+      episodes: pageEpisode.prev,
+      locations: pageLocation.prev,
+    }
+    setUrl({ ...url, [target]: prevPage[target] })
+  }
+
+  function handlePageCount() {
+    const activeNav = Object.keys(isActive).find(key => isActive[key] === true)
+    const pageCounter = {
+      characters: pageChar,
+      episodes: pageEpisode,
+      locations: pageLocation,
+    }
+    return pageCounter[activeNav]
   }
 }
 
