@@ -13,6 +13,9 @@ export default function Navigation({ isActive, handleClick }) {
       <Button isActive={isActive.locations} handleClick={handleClick}>
         Locations
       </Button>
+      <Button isActive={isActive.bookmarks} handleClick={handleClick}>
+        Bookmarks
+      </Button>
     </nav>
   )
 }

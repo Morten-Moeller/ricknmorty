@@ -7,7 +7,7 @@
   background: linear-gradient(180deg, teal, white 28%);
   border: 2px solid rgba(0, 0, 0, 0.2);
   width: 304px;
-  min-height: 426px;
+  height: 426px;
 }
 
 .Card__heading {

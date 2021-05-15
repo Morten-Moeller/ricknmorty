@@ -91,27 +91,33 @@ function App() {
     <div className="App">
       <Header />
       <Navigation isActive={isActive} handleClick={handleNavClick} />
-      <Pagination
-        props={handlePageCount()}
-        handleClickNext={handleNextPageClick}
-        handleClickPrev={handlePrevPageClick}
-      />
+      {!isActive.bookmarks && (
+        <Pagination
+          props={handlePageCount()}
+          handleClickNext={handleNextPageClick}
+          handleClickPrev={handlePrevPageClick}
+        />
+      )}
+      {isActive.bookmarks && <p>All in one Page</p>}
       <div className="App__container">
         {isActive.locations && location && renderLocations()}
         {isActive.episodes && episode && renderEpisodes()}
         {isActive.characters && chars && renderChars()}
+        {isActive.bookmarks && bookmarked && renderBookmarked()}
       </div>
     </div>
   )
 
   function renderChars() {
     return chars.map(el => (
-      <Card
-        key={el.id}
-        props={el}
-        isActive={isActive}
-        handleBookmark={handleBookmark}
-      />
+      <Card key={el.id} props={el} handleBookmark={handleBookmark} />
+    ))
+  }
+
+  function renderBookmarked() {
+    console.log(bookmarked)
+    return bookmarked.map(el => (
+      <Card key={el.id} props={el} handleBookmark={handleBookmark} />
     ))
   }
 
@@ -161,27 +167,23 @@ function App() {
   }
 
   function handleBookmark(event) {
-    const index = event.target.name - 1
-    const newValue = (chars[index].isBookmarked = !chars[index].isBookmarked)
+    const id = Number(event.target.name)
+    const charsIndex = chars.findIndex(el => id === el.id)
+    const newValue = (chars[charsIndex].isBookmarked = !chars[charsIndex]
+      .isBookmarked)
     setChars(chars =>
       setChars(
         chars,
-        (chars[index] = { ...chars[index], isBookmarked: newValue })
+        (chars[charsIndex] = { ...chars[charsIndex], isBookmarked: newValue })
       )
     )
     console.log(bookmarked)
     if (newValue) {
-      setBookmarked([...bookmarked, chars[index]])
+      setBookmarked([...bookmarked, chars[charsIndex]])
     } else {
       const indexToDelete = bookmarked.findIndex(
-        el => chars[index].name === el.name
+        el => chars[charsIndex].name === el.name
       )
-      console.log(indexToDelete)
-      console.log(chars[index].name)
-      console.log([
-        ...bookmarked.slice(0, indexToDelete),
-        ...bookmarked.slice(indexToDelete + 1),
-      ])
       setBookmarked([
         ...bookmarked.slice(0, indexToDelete),
         ...bookmarked.slice(indexToDelete + 1),

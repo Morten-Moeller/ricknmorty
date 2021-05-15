@@ -1,6 +1,6 @@
 import './Card.css'
 
-export default function Card({ props, isActive, handleBookmark }) {
+export default function Card({ props, handleBookmark }) {
   const { name, location, image, id, isBookmarked } = props
   return (
     <section className="Card">
