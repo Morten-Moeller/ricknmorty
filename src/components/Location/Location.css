@@ -13,3 +13,16 @@
   color: white;
   margin-bottom: 30px;
 }
+
+.Location__list {
+  margin-top: 40px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  letter-spacing: 0.025rem;
+  line-height: 1.5rem;
+}
+
+.Location__button {
+  height: 36px;
+}
