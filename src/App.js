@@ -105,7 +105,11 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Navigation isActive={isActive} handleClick={handleNavClick} />
+      <Navigation
+        hasBookmarks={bookmarked}
+        isActive={isActive}
+        handleClick={handleNavClick}
+      />
       {!isActive.bookmarks && (
         <Pagination
           props={handlePageCount()}
