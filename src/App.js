@@ -92,6 +92,16 @@ function App() {
     [url.locations]
   )
 
+  const [locationResidentsUrl, setLocationResidentsUrl] = useState([])
+  const [residents, setResidents] = useState([])
+
+  useEffect(() => {
+    locationResidentsUrl &&
+      Promise.all(
+        locationResidentsUrl.map(url => fetch(url).then(res => res.json()))
+      ).then(data => setResidents(data))
+  }, [locationResidentsUrl])
+
   return (
     <div className="App">
       <Header />
@@ -137,7 +147,9 @@ function App() {
   }
 
   function renderLocations() {
-    return location.map(el => Location(el))
+    return location.map(el => {
+      return Location(el, handleResidentClick, residents)
+    })
   }
 
   function renderEpisodes() {
@@ -203,6 +215,12 @@ function App() {
         ...bookmarked.slice(indexToDelete + 1),
       ])
     }
+  }
+
+  function handleResidentClick(element) {
+    const id = Number(element.target.name)
+    const index = location.findIndex(el => id === el.id)
+    setLocationResidentsUrl(location[index].residents)
   }
 }
 
