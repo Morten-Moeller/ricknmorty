@@ -1,7 +1,9 @@
 import './Card.css'
 
-export default function Card({ props, handleBookmark }) {
-  const { name, location, image, id, isBookmarked } = props
+export default function Card({ props, handleBookmark, bookmarked }) {
+  const { name, location, image, id } = props
+  const isMarked = bookmarked.find(bookmark => bookmark.name === name)
+  const isBookmarked = isMarked ? true : false
   return (
     <section className="Card">
       <button
