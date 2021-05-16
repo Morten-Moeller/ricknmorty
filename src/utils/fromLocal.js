@@ -1,6 +1,7 @@
 function loadFromLocal(key) {
   const jsonString = localStorage.getItem(key)
-  return JSON.parse(jsonString)
+  const data = JSON.parse(jsonString)
+  return JSON.parse(data)
 }
 
 function saveToLocal(key, data) {
