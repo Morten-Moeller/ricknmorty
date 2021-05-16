@@ -24,3 +24,12 @@
 .App > p {
   color: white;
 }
+
+@media (min-width: 600px) {
+  .App__container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

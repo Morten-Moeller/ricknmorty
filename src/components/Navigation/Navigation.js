@@ -1,7 +1,9 @@
 import Button from '../Button/Button'
 import './Navigation.css'
 
-export default function Navigation({ isActive, handleClick }) {
+export default function Navigation({ isActive, handleClick, hasBookmarks }) {
+  const bookmark = hasBookmarks.length > 0 ? true : false
+  console.log(hasBookmarks)
   return (
     <nav className="Navigation">
       <Button isActive={isActive.characters} handleClick={handleClick}>
@@ -13,9 +15,11 @@ export default function Navigation({ isActive, handleClick }) {
       <Button isActive={isActive.locations} handleClick={handleClick}>
         Locations
       </Button>
-      <Button isActive={isActive.bookmarks} handleClick={handleClick}>
-        Bookmarks
-      </Button>
+      {bookmark && (
+        <Button isActive={isActive.bookmarks} handleClick={handleClick}>
+          Bookmarks
+        </Button>
+      )}
     </nav>
   )
 }
