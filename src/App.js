@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
 import Header from './components/Header/Header'
+import loading from './images/loading.png'
 
 function App() {
   const initialUrlCharacter = 'https://rickandmortyapi.com/api/character'
@@ -23,6 +24,9 @@ function App() {
     <div className="App">
       <Header />
       <section className="App__cardcontainer">
+        {!characterPages[0] && (
+          <img className="App__loading" src={loading} alt="Loading..." />
+        )}
         {characterPages[0]?.results.map(character => (
           <Card key={character.id} props={character} />
         ))}
