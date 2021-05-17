@@ -1,0 +1,24 @@
+.Card {
+  display: grid;
+  justify-items: center;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  width: 250px;
+}
+
+.Card__image {
+  height: auto;
+  width: 230px;
+}
+
+.Card__bookmark {
+  height: 36px;
+  width: 64px;
+  position: absolute;
+  right: -24px;
+  top: 250px;
+  background: none;
+  border: 1px solid black;
+  border-radius: 10px;
+}
