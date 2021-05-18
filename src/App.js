@@ -15,6 +15,10 @@ function App() {
   const [episodePages, setEpisodePages] = useState([])
 
   useEffect(() => {
+    fetchCharacterPages(initialUrlCharacter, setCharacterPages)
+  }, [])
+
+  useEffect(() => {
     fetchPages(initialUrlCharacter, setCharacterPages, characterPages)
     fetchPages(initialUrlLocation, setLocationPages, locationPages)
     fetchPages(initialUrlEpisode, setEpisodePages, episodePages)
@@ -33,6 +37,24 @@ function App() {
       </section>
     </div>
   )
+}
+
+function fetchCharacterPages(initialUrl, setCharacterPages) {
+  fetch(initialUrl)
+    .then(res => res.json())
+    .then(firstPage => {
+      setCharacterPages([firstPage])
+
+      const promises = Array(firstPage.info.pages - 1)
+        .fill()
+        .map((_, index) =>
+          fetch(initialUrl + '?page=' + (index + 2)).then(res => res.json())
+        )
+      Promise.all(promises).then(otherPages =>
+        setCharacterPages(characterPages => [...characterPages, ...otherPages])
+      )
+    })
+    .catch(error => console.log(error))
 }
 
 function fetchPages(initialUrl, setState, state) {
