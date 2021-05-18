@@ -28,7 +28,12 @@
   top: 220px;
   background: rgba(255, 255, 255, 0.4);
   border: 1px solid black;
-  border-radius: 10px;
+  border-radius: 15px 0 0 15px;
+}
+
+.Card__bookmark.active {
+  background: yellowgreen;
+  border: 2px solid #0293a6;
 }
 
 .Card__copytext {

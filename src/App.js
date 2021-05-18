@@ -2,9 +2,18 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
 import Header from './components/Header/Header'
+import Navigation from './components/Navigation/Navigation'
 import loading from './images/loading.png'
 
 function App() {
+  const [page, setPage] = useState({
+    character: 0,
+    location: 0,
+    episode: 0,
+  })
+
+  const [navigationActive, setNavigationActive] = useState('character')
+
   const initialUrlCharacter = 'https://rickandmortyapi.com/api/character'
   const [characterPages, setCharacterPages] = useState([])
 
@@ -19,24 +28,50 @@ function App() {
   }, [])
 
   useEffect(() => {
-    fetchPages(initialUrlCharacter, setCharacterPages, characterPages)
-    fetchPages(initialUrlLocation, setLocationPages, locationPages)
-    fetchPages(initialUrlEpisode, setEpisodePages, episodePages)
-  }, [])
+    if (characterPages.length && locationPages.length + episodePages.length) {
+      fetchPages(initialUrlLocation, setLocationPages, locationPages)
+      fetchPages(initialUrlEpisode, setEpisodePages, episodePages)
+    }
+  }, [characterPages, locationPages, episodePages])
 
   return (
     <div className="App">
       <Header />
+      <Navigation
+        navigationActive={navigationActive}
+        handleClick={handleNavigationClick}
+      />
       <section className="App__cardcontainer">
         {!characterPages[0] && (
           <img className="App__loading" src={loading} alt="Loading..." />
         )}
-        {characterPages[0]?.results.map(character => (
+        {characterPages[page.character]?.results.map(character => (
           <Card key={character.id} props={character} />
         ))}
       </section>
     </div>
   )
+
+  function handleNavigationClick(event) {
+    const buttonName = event.target.name
+
+    switch (buttonName) {
+      case 'navButtonCharacters':
+        setNavigationActive('character')
+        break
+      case 'navButtonEpisodes':
+        setNavigationActive('episode')
+        break
+      case 'navButtonLocations':
+        setNavigationActive('location')
+        break
+      case 'navButtonFavorits':
+        setNavigationActive('favorit')
+        break
+      default:
+        break
+    }
+  }
 }
 
 function fetchCharacterPages(initialUrl, setCharacterPages) {

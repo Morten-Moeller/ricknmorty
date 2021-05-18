@@ -1,12 +1,18 @@
+import { useState } from 'react'
 import './Card.css'
 
 export default function Card({ props }) {
+  const [isBookmarked, setIsBookmarked] = useState(false)
   const { name, gender, image, status, species } = props
   const firstEpisode = 'S01E01'
   const firstEpisodeName = 'Pilot'
   return (
     <section className="Card">
-      <button className="Card__bookmark" aria-label="bookmark" />
+      <button
+        onClick={handleClick}
+        className={isBookmarked ? 'Card__bookmark active' : 'Card__bookmark'}
+        aria-label="bookmark"
+      />
       <h2 className="Card__heading">
         {name} {gender === 'Male' ? '♂' : '♀'}
       </h2>
@@ -22,4 +28,8 @@ export default function Card({ props }) {
       </p>
     </section>
   )
+
+  function handleClick() {
+    setIsBookmarked(!isBookmarked)
+  }
 }

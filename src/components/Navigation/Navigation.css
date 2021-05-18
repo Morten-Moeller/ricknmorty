@@ -1,0 +1,21 @@
+.Navigation {
+  display: flex;
+  gap: 6px;
+}
+
+.Navigation__button {
+  background: #0293a6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+.Navigation__button:hover {
+  background: yellowgreen;
+}
+
+.Navigation__button.active {
+  background: yellowgreen;
+  border: 2px solid #0293a6;
+}
