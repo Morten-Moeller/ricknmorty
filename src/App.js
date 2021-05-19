@@ -3,13 +3,20 @@ import './App.css'
 import Card from './components/Card/Card'
 import Header from './components/Header/Header'
 import Navigation from './components/Navigation/Navigation'
+import Pagination from './components/Pagination/Pagination'
 import loading from './images/loading.png'
 
 function App() {
   const [page, setPage] = useState({
-    character: 0,
-    location: 0,
-    episode: 0,
+    character: 1,
+    location: 1,
+    episode: 1,
+  })
+
+  const [totalPages, setTotalPages] = useState({
+    characterTotalPages: 0,
+    locationTotalPages: 0,
+    episodeTotalPages: 0,
   })
 
   const [navigationActive, setNavigationActive] = useState('character')
@@ -28,10 +35,19 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (characterPages.length && locationPages.length + episodePages.length) {
+    if (
+      characterPages.length &&
+      locationPages.length + episodePages.length < 0
+    ) {
       fetchPages(initialUrlLocation, setLocationPages, locationPages)
       fetchPages(initialUrlEpisode, setEpisodePages, episodePages)
     }
+
+    setTotalPages({
+      character: characterPages.length,
+      location: locationPages.length,
+      episode: episodePages.length,
+    })
   }, [characterPages, locationPages, episodePages])
 
   return (
@@ -41,11 +57,19 @@ function App() {
         navigationActive={navigationActive}
         handleClick={handleNavigationClick}
       />
+      {characterPages[0] && (
+        <Pagination
+          onClick={handlePaginationClick}
+          page={page}
+          totalPages={totalPages}
+          navigationActive={navigationActive}
+        />
+      )}
       <section className="App__cardcontainer">
         {!characterPages[0] && (
           <img className="App__loading" src={loading} alt="Loading..." />
         )}
-        {characterPages[page.character]?.results.map(character => (
+        {characterPages[page.character - 1]?.results.map(character => (
           <Card key={character.id} props={character} />
         ))}
       </section>
@@ -71,6 +95,15 @@ function App() {
       default:
         break
     }
+  }
+
+  function handlePaginationClick(navigationActive, value, totalPages) {
+    if (
+      page[navigationActive] + value < 1 ||
+      page[navigationActive] + value > totalPages
+    )
+      return
+    setPage({ ...page, [navigationActive]: page[navigationActive] + value })
   }
 }
 
