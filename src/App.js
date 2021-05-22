@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import Card from './components/Card/Card'
+import Episode from './components/Episode/Episode'
 import Header from './components/Header/Header'
 import Navigation from './components/Navigation/Navigation'
 import Pagination from './components/Pagination/Pagination'
@@ -37,7 +38,7 @@ function App() {
   useEffect(() => {
     if (
       characterPages.length &&
-      locationPages.length + episodePages.length < 0
+      locationPages.length + episodePages.length <= 0
     ) {
       fetchPages(initialUrlLocation, setLocationPages, locationPages)
       fetchPages(initialUrlEpisode, setEpisodePages, episodePages)
@@ -69,9 +70,14 @@ function App() {
         {!characterPages[0] && (
           <img className="App__loading" src={loading} alt="Loading..." />
         )}
-        {characterPages[page.character - 1]?.results.map(character => (
-          <Card key={character.id} props={character} />
-        ))}
+        {navigationActive === 'character' &&
+          characterPages[page.character - 1]?.results.map(character => (
+            <Card key={character.id} props={character} />
+          ))}
+        {navigationActive === 'episode' &&
+          episodePages[page.episode - 1]?.results.map(episode => (
+            <Episode characterPages={characterPages} props={episode} />
+          ))}
       </section>
     </div>
   )
